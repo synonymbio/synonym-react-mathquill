@@ -65,18 +65,6 @@ module.exports = (env, args) => ({
         // test: /.*mathquill\/build\/mathquill\.js$/,
         test: /.*mathquill\/mathquill.*\.js$/,
         use: [
-          // {
-          //   loader: 'imports-loader',
-          //   options: {
-          //     type: 'commonjs',
-          //     imports: {
-          //       syntax: 'single',
-          //       moduleName: 'jquery',
-          //       name: '__webpack_jquery',
-          //     },
-          //     additionalCode: 'window.jQuery=__webpack_jquery;',
-          //   },
-          // },
           {
             loader: 'exports-loader',
             options: {
