@@ -15,6 +15,15 @@ module.exports = (env, args) => ({
   externals: {
     react: 'react',
   },
+  resolve: {
+    fallback: {
+      url: false,
+    },
+    alias: {
+      '@mathquill': path.resolve(__dirname, 'src/mathquill'),
+      // 'fonts': path.resolve(__dirname, 'src/mathquill/fonts'),
+    },
+  },
   module: {
     rules: [
       {
@@ -35,38 +44,39 @@ module.exports = (env, args) => ({
         test: /\.css$/,
         loader: 'css-loader',
       },
-      {
-        test: /mathquill\.css$/,
-        loader: 'string-replace-loader',
-        options: {
-          search: '@font-face {(.|\n)+?}',
-          replace:
-            '@font-face {\n' +
-            '  /* Heavy fonts have been removed */\n' +
-            '  font-family: Symbola;\n' +
-            // '  src: url("font/Symbola.woff2") format("woff2"), url("font/Symbola.woff") format("woff");\n' +
-            // '  src: url("font/Symbola.ttf") format("truetype");\n',
-            '}',
-          flags: 'g',
-        },
-      },
+      // {
+      //   test: /mathquill\.css$/,
+      //   loader: 'string-replace-loader',
+      //   options: {
+      //     search: '@font-face {(.|\n)+?}',
+      //     replace:
+      //       '@font-face {\n' +
+      //       '  /* Heavy fonts have been removed */\n' +
+      //       '  font-family: Symbola;\n' +
+      //       // '  src: url("font/Symbola.woff2") format("woff2"), url("font/Symbola.woff") format("woff");\n' +
+      //       // '  src: url("font/Symbola.ttf") format("truetype");\n',
+      //       '}',
+      //     flags: 'g',
+      //   },
+      // },
       {
         // You can use `regexp`
         // test: /example\.js/$
-        test: /.*mathquill\/build\/mathquill\.js$/,
+        // test: /.*mathquill\/build\/mathquill\.js$/,
+        test: /.*mathquill\/mathquill.*\.js$/,
         use: [
-          {
-            loader: 'imports-loader',
-            options: {
-              type: 'commonjs',
-              imports: {
-                syntax: 'single',
-                moduleName: 'jquery',
-                name: '__webpack_jquery',
-              },
-              additionalCode: 'window.jQuery=__webpack_jquery;',
-            },
-          },
+          // {
+          //   loader: 'imports-loader',
+          //   options: {
+          //     type: 'commonjs',
+          //     imports: {
+          //       syntax: 'single',
+          //       moduleName: 'jquery',
+          //       name: '__webpack_jquery',
+          //     },
+          //     additionalCode: 'window.jQuery=__webpack_jquery;',
+          //   },
+          // },
           {
             loader: 'exports-loader',
             options: {
