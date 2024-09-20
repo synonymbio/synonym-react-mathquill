@@ -1,11 +1,11 @@
 {
-  "name": "react-mathquill",
+  "name": "synonym-react-mathquill",
   "version": "1.0.3",
   "description": "React component wrapper for Mathquill",
   "main": "index.js",
   "typings": "index.d.ts",
-  "repository": "git@github.com:viktorstrate/react-mathquill.git",
-  "author": "viktorstrate <viktorstrate@gmail.com>",
+  "repository": "https://github.com/synonymbio/synonym-react-mathquill",
+  "author": "Milo Knowles <milo@synonym.bio>",
   "license": "MIT",
   "private": false,
   "scripts": {
