@@ -2352,7 +2352,9 @@ var __assign = (this && this.__assign) || function () {
                 var cursorState = 'none';
                 var bracketNodes = [];
                 this.__controller.root.postOrder(function (node) {
-                    var nodeIsQuote = (node instanceof VanillaSymbol) && (node.textTemplate[0] === '"' || node.textTemplate[0] === "'");
+                    var nodeIsQuote = (node instanceof VanillaSymbol) &&
+                        (node.textTemplate[0] === '"' || node.textTemplate[0] === "'");
+                    var nodeIsPeriod = node instanceof DigitGroupingChar && node.textTemplate[0] === '.';
                     // First, check for any state transitions due to the current token.
                     // A letter can start a new object.
                     if (node instanceof Letter && (cursorState === 'none')) {
@@ -2364,7 +2366,7 @@ var __assign = (this && this.__assign) || function () {
                         cursorState = 'property';
                         // A period is a delimiter between an object and a property, or a property and a property.
                     }
-                    else if (node instanceof DigitGroupingChar && node.textTemplate[0] === '.') {
+                    else if (nodeIsPeriod) {
                         if (cursorState === 'object' || cursorState === 'property') {
                             cursorState = 'period';
                         }
@@ -2377,11 +2379,16 @@ var __assign = (this && this.__assign) || function () {
                         }
                     }
                     else {
+                        var nodeBeforeIsPeriod = node[L] && node[L] instanceof DigitGroupingChar && node[L].textTemplate[0] === '.';
+                        var nodeBeforeIsQuote = node[L] && node[L] instanceof VanillaSymbol && (node[L].textTemplate[0] === '"' || node[L].textTemplate[0] === "'");
+                        var nodeBeforeIsValidToken = node[L] && node[L] instanceof Letter || node[L] instanceof Digit || nodeBeforeIsPeriod || nodeBeforeIsQuote;
+                        // Is this the end of a string literal?
                         if (cursorState === 'literal' && !(nodeIsQuote || node instanceof Letter || node instanceof Digit)) {
                             cursorState = 'none';
                             identifiers.push(identifier);
+                            // Is this the end of an identifier?
                         }
-                        else if (!(node instanceof Letter || node instanceof Digit) && cursorState !== 'none') {
+                        else if ((!nodeBeforeIsValidToken || !(node instanceof Letter || node instanceof Digit)) && cursorState !== 'none') {
                             cursorState = 'none';
                             identifiers.push(identifier);
                         }
@@ -2427,7 +2434,10 @@ var __assign = (this && this.__assign) || function () {
                     }
                     // Keep track of any bracket nodes encountered.
                     if (node instanceof Bracket) {
-                        bracketNodes.push(node);
+                        var isUnitBrace = node.textTemplate[0] === '{';
+                        if (isUnitBrace) {
+                            bracketNodes.push(node);
+                        }
                     }
                 });
                 // Label any descendents of bracket nodes.

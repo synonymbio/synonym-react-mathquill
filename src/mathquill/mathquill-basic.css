@@ -25,16 +25,11 @@
   text-align: left;
   overflow: hidden;
 }
-/*
- * NOTE(milo): Removed this because it causes webpack to add `require(url)...` to the bundle.
- * We should figure out a way to include the font in the bundle later.
- * @font-face {
- *   font-family: Symbola;
- *   src: url(fonts/Symbola-basic.eot);
- *   src: local('Symbola Regular'), local('Symbola'), url(fonts/Symbola-basic.woff2) format('woff2'), url(fonts/Symbola-basic.woff) format('woff'), url(fonts/Symbola-basic.ttf) format('truetype');
- * }
- */
-
+@font-face {
+  font-family: Symbola;
+  src: url(fonts/Symbola-basic.eot);
+  src: local('Symbola Regular'), local('Symbola'), url(fonts/Symbola-basic.woff2) format('woff2'), url(fonts/Symbola-basic.woff) format('woff'), url(fonts/Symbola-basic.ttf) format('truetype');
+}
 .mq-editable-field {
   display: -moz-inline-box;
   display: inline-block;
