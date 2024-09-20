@@ -1,6 +1,15 @@
-# React component wrapper for [Mathquill](http://mathquill.com/)
+# Synonym's React [Mathquill](http://mathquill.com/)
 
-[![npm version](https://badge.fury.io/js/react-mathquill.svg)](https://badge.fury.io/js/react-mathquill)
+[![npm version](https://badge.fury.io/js/@synonym-bio%2Freact-mathquill.svg)](https://badge.fury.io/js/@synonym-bio%2Freact-mathquill)
+
+## Overview
+
+This is a fork of the `react-mathquill` project, which wraps MathQuill in React components. We've made some updates to the underlying MathQuill library to add new features, remove the dependency on jQuery, and reduce bundle size.
+
+## Getting Started
+- Run `npm install`
+- Build with `npm run build` and make sure there are no errors
+- You can run the examples with `npm run start:example` and navigate to `http://localhost:8080/`. Make sure that the editable math field works!
 
 ## Examples
 
