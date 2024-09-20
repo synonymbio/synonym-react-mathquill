@@ -1,10 +1,13 @@
 {
-  "name": "synonym-react-mathquill",
+  "name": "@synonym-bio/react-mathquill",
   "version": "1.0.3",
   "description": "React component wrapper for Mathquill",
   "main": "index.js",
   "typings": "index.d.ts",
-  "repository": "https://github.com/synonymbio/synonym-react-mathquill",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/synonymbio/synonym-react-mathquill.git"
+  },
   "author": "Milo Knowles <milo@synonym.bio>",
   "license": "MIT",
   "private": false,
@@ -18,7 +21,6 @@
     "prepublish": "rm -rf dist/ && npm run build",
     "prepublishOnly": "npm run test"
   },
-  "dependencies": {},
   "peerDependencies": {
     "react": "^18.2.0"
   },
@@ -46,5 +48,12 @@
     "webpack": "^5.60.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.3.1"
+  },
+  "bugs": {
+    "url": "https://github.com/synonymbio/synonym-react-mathquill/issues"
+  },
+  "homepage": "https://github.com/synonymbio/synonym-react-mathquill#readme",
+  "directories": {
+    "example": "examples"
   }
 }

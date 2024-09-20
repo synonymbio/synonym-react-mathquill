@@ -49,6 +49,16 @@ declare module 'react-mathquill' {
     L,
   }
 
+  // Represents one character that belongs to an identifier.
+  export interface IdentifierToken {
+    id: string | number
+    text: string
+    type: 'letter' | 'number' | 'underscore' | 'period' | 'quote' | 'unknown'
+    belongsTo: 'object' | 'property' | 'period' | 'literal' | 'none'
+    element: Element | Text | undefined
+    setElement: (element: Element | Text | undefined) => void
+  }  
+
   export interface MathField {
     revert(): void
     reflow(): void
@@ -67,5 +77,6 @@ declare module 'react-mathquill' {
     keystroke(keys: string): void
     typedText(text: string): void
     config(newConfig: MathFieldConfig): void
+    parseSemanticTypes(): IdentifierToken[][]
   }
 }

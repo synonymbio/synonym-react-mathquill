@@ -11,9 +11,9 @@ echo "✅ Built MathQuill"
 cd $CWD
 
 mkdir -p build
-mkdir -p build/fonts
+mkdir -p mathquill/fonts
 
-cp ~/synonym/synonym-mathquill/build/mathquill-basic.* build/
-cp ~/synonym/synonym-mathquill/build/fonts/Symbola-basic.* build/fonts/
+cp ~/synonym/synonym-mathquill/build/mathquill-basic.* mathquill/
+cp ~/synonym/synonym-mathquill/build/fonts/Symbola-basic.* mathquill/fonts/
 
 echo "✅ Copied MathQuill to build folder"
