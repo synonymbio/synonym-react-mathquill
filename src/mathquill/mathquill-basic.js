@@ -2351,7 +2351,14 @@ var __assign = (this && this.__assign) || function () {
                 var identifier = [];
                 var cursorState = 'none';
                 var bracketNodes = [];
+                // The postOrder follows a left, right, then parent order. This means that
+                // it will visit all of the letters in an identifier in sequence, allowing
+                // us to detect them.
+                // For example:
+                // f(hello) would be traversed as:
+                // f, h, e, l, l, o, (hello).
                 this.__controller.root.postOrder(function (node) {
+                    // console.debug(node);
                     var nodeIsQuote = (node instanceof VanillaSymbol) &&
                         (node.textTemplate[0] === '"' || node.textTemplate[0] === "'");
                     var nodeIsPeriod = node instanceof DigitGroupingChar && node.textTemplate[0] === '.';
@@ -2360,15 +2367,18 @@ var __assign = (this && this.__assign) || function () {
                     if (node instanceof Letter && (cursorState === 'none')) {
                         cursorState = 'object';
                         identifier = [];
+                        // console.debug('Starting object');
                         // A letter after a period is the start of a property.
                     }
                     else if (node instanceof Letter && cursorState === 'period') {
                         cursorState = 'property';
+                        // console.debug('Starting property');
                         // A period is a delimiter between an object and a property, or a property and a property.
                     }
                     else if (nodeIsPeriod) {
                         if (cursorState === 'object' || cursorState === 'property') {
                             cursorState = 'period';
+                            // console.debug('This is a period');
                         }
                         // A quote is the start of a string literal.
                     }
@@ -2376,6 +2386,7 @@ var __assign = (this && this.__assign) || function () {
                         if (cursorState !== 'literal') {
                             cursorState = 'literal';
                             identifier = [];
+                            // console.debug('Starting literal');
                         }
                     }
                     else {
@@ -2386,12 +2397,20 @@ var __assign = (this && this.__assign) || function () {
                         if (cursorState === 'literal' && !(nodeIsQuote || node instanceof Letter || node instanceof Digit)) {
                             cursorState = 'none';
                             identifiers.push(identifier);
+                            // console.debug('Ending literal');
                             // Is this the end of an identifier?
                         }
                         else if ((!nodeBeforeIsValidToken || !(node instanceof Letter || node instanceof Digit)) && cursorState !== 'none') {
                             cursorState = 'none';
                             identifiers.push(identifier);
+                            // console.debug('Ending identifier');
                         }
+                    }
+                    // This letter might have just ENDED and identifier and STARTED one.
+                    if (node instanceof Letter && (cursorState === 'none')) {
+                        cursorState = 'object';
+                        identifier = [];
+                        // console.debug('Starting object (after ending one!)');
                     }
                     // If we're in the middle of an identifier, keep adding to it.
                     if (cursorState === 'object' || cursorState === 'property' || cursorState === 'period' || cursorState === 'literal') {
