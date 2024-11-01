@@ -10,8 +10,8 @@ This is a fork of the `react-mathquill` project, which wraps MathQuill in React 
 - Run `npm install`
 - Build with `npm run build` and make sure there are no errors
 - You can run the examples with `npm run start:example` and navigate to `http://localhost:8080/`. Make sure that the editable math field works!
-- If you make a change to our fork of MathQuill, run the `mathquill-build.sh` script to bring in those changes.
-- IMPORTANT!!! Make sure you delete the `font-face` imports in the CSS file! This causes some weird runtime error to occur due to a missing Node.js builtin function. Eventually we'll remove that manual step.
+- If you make a change to our fork of MathQuill, run the `./mathquill-build.sh` script to bring in those changes.
+- IMPORTANT! Make sure you delete the `font-face` imports in the CSS file `mathquill-basic.css`! This causes some weird runtime error to occur due to a missing Node.js builtin function. Eventually we'll remove that manual step.
 
 ## Examples
 
