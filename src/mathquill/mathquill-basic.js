@@ -2361,16 +2361,19 @@ var __assign = (this && this.__assign) || function () {
                     // console.debug(node);
                     var nodeIsQuote = (node instanceof VanillaSymbol) &&
                         (node.textTemplate[0] === '"' || node.textTemplate[0] === "'");
+                    var nodeIsUnderscore = node instanceof VanillaSymbol && node.textTemplate[0] === '_';
                     var nodeIsPeriod = node instanceof DigitGroupingChar && node.textTemplate[0] === '.';
+                    var nodeIsValidIdentifierStart = (node instanceof Letter) || nodeIsUnderscore;
+                    var nodeCanContinueIdentifier = (node instanceof Letter) || (node instanceof Digit) || nodeIsUnderscore;
                     // First, check for any state transitions due to the current token.
                     // A letter can start a new object.
-                    if (node instanceof Letter && (cursorState === 'none')) {
+                    if (nodeIsValidIdentifierStart && (cursorState === 'none')) {
                         cursorState = 'object';
                         identifier = [];
                         // console.debug('Starting object');
                         // A letter after a period is the start of a property.
                     }
-                    else if (node instanceof Letter && cursorState === 'period') {
+                    else if (nodeIsValidIdentifierStart && cursorState === 'period') {
                         cursorState = 'property';
                         // console.debug('Starting property');
                         // A period is a delimiter between an object and a property, or a property and a property.
@@ -2390,24 +2393,32 @@ var __assign = (this && this.__assign) || function () {
                         }
                     }
                     else {
-                        var nodeBeforeIsPeriod = node[L] && node[L] instanceof DigitGroupingChar && node[L].textTemplate[0] === '.';
-                        var nodeBeforeIsQuote = node[L] && node[L] instanceof VanillaSymbol && (node[L].textTemplate[0] === '"' || node[L].textTemplate[0] === "'");
-                        var nodeBeforeIsValidToken = node[L] && node[L] instanceof Letter || node[L] instanceof Digit || nodeBeforeIsPeriod || nodeBeforeIsQuote;
+                        var nodeBeforeIsPeriod = node[L] &&
+                            (node[L] instanceof DigitGroupingChar) && (node[L].textTemplate[0] === '.');
+                        var nodeBeforeIsQuote = node[L] &&
+                            (node[L] instanceof VanillaSymbol) && (node[L].textTemplate[0] === '"' || node[L].textTemplate[0] === "'");
+                        var nodeBeforeIsUnderscore = node[L] &&
+                            (node[L] instanceof VanillaSymbol) && (node[L].textTemplate[0] === '_');
+                        var nodeBeforeIsValidToken = node[L] && ((node[L] instanceof Letter) ||
+                            (node[L] instanceof Digit) ||
+                            nodeBeforeIsUnderscore ||
+                            nodeBeforeIsPeriod ||
+                            nodeBeforeIsQuote);
                         // Is this the end of a string literal?
-                        if (cursorState === 'literal' && !(nodeIsQuote || node instanceof Letter || node instanceof Digit)) {
+                        if (cursorState === 'literal' && !(nodeIsQuote || nodeCanContinueIdentifier)) {
                             cursorState = 'none';
                             identifiers.push(identifier);
                             // console.debug('Ending literal');
                             // Is this the end of an identifier?
                         }
-                        else if ((!nodeBeforeIsValidToken || !(node instanceof Letter || node instanceof Digit)) && cursorState !== 'none') {
+                        else if ((!nodeBeforeIsValidToken || !nodeCanContinueIdentifier) && (cursorState !== 'none')) {
                             cursorState = 'none';
                             identifiers.push(identifier);
                             // console.debug('Ending identifier');
                         }
                     }
-                    // This letter might have just ENDED and identifier and STARTED one.
-                    if (node instanceof Letter && (cursorState === 'none')) {
+                    // This letter might have just ENDED an identifier and STARTED one.
+                    if (nodeIsValidIdentifierStart && (cursorState === 'none')) {
                         cursorState = 'object';
                         identifier = [];
                         // console.debug('Starting object (after ending one!)');
@@ -6377,17 +6388,10 @@ var __assign = (this && this.__assign) || function () {
             _this = _super.call(this, letter) || this;
             _this.letter = letter;
             _this.domView = new DOMView(0, function () {
-                return h('var', { class: 'mq-f' }, [h.text('f')]);
+                return h('var', { class: 'mq-f-disabled' }, [h.text('f')]);
             });
             return _this;
         }
-        class_3.prototype.italicize = function (bool) {
-            // Why is this necesssary? Does someone replace the `f` at some
-            // point?
-            this.domFrag().eachElement(function (el) { return (el.textContent = 'f'); });
-            this.domFrag().toggleClass('mq-f', bool);
-            return _super.prototype.italicize.call(this, bool);
-        };
         return class_3;
     }(Letter));
     // VanillaSymbol's
@@ -7541,7 +7545,8 @@ var __assign = (this && this.__assign) || function () {
         };
         return SubscriptCommand;
     }(SupSub));
-    LatexCmds.subscript = LatexCmds._ = SubscriptCommand;
+    // NOTE(milo): DISABLED THE SUBSCRIPT COMMAND HERE BY COMMENTING OUT.
+    // LatexCmds.subscript = LatexCmds._ = SubscriptCommand;
     LatexCmds.superscript =
         LatexCmds.supscript =
             LatexCmds['^'] = /** @class */ (function (_super) {
