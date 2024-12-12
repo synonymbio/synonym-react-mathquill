@@ -2259,6 +2259,8 @@ var __assign = (this && this.__assign) || function () {
                 _this.data = ctrlr.data;
                 return _this;
             }
+            // NOTE(milo): This gets called to turn an HTML element into a MathQuill
+            // rendered math block.
             AbstractMathQuill.prototype.mathquillify = function (classNames) {
                 var ctrlr = this.__controller, root = ctrlr.root, el = ctrlr.container;
                 ctrlr.createTextarea();
@@ -2939,8 +2941,10 @@ var __assign = (this && this.__assign) || function () {
                 return onFailure(stream, msg);
             });
         };
-        Parser.letter = Parser.regex(/^[a-z]/i);
-        Parser.letters = Parser.regex(/^[a-z]*/i);
+        // NOTE(milo): Added underscores to the valid letters! This allows the input
+        // latex to use _ outside of a \text{} and still be parsed correctly!
+        Parser.letter = Parser.regex(/^[a-z_]/i); // CHANGED
+        Parser.letters = Parser.regex(/^[a-z_]*/i); // CHANGED
         Parser.digit = Parser.regex(/^[0-9]/);
         Parser.digits = Parser.regex(/^[0-9]*/);
         Parser.whitespace = Parser.regex(/^\s+/);
@@ -4394,6 +4398,7 @@ var __assign = (this && this.__assign) || function () {
             var root = this.root, cursor = this.cursor;
             var all = Parser.all;
             var eof = Parser.eof;
+            // NOTE(milo): If parsing fails, `block` will have value `false` here.
             var block = latexMathParser
                 .skip(eof)
                 .or(all.result(false))
@@ -4412,6 +4417,7 @@ var __assign = (this && this.__assign) || function () {
                 root.domFrag().empty();
             }
         };
+        // NOTE(milo): This is where parsing happens!
         Controller_latex.prototype.renderLatexMath = function (latex) {
             var cursor = this.cursor;
             var root = this.root;
