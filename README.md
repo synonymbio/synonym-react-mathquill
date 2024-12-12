@@ -4,7 +4,9 @@
 
 ## Overview
 
-This is a fork of the `react-mathquill` project, which wraps MathQuill in React components. We've made some updates to the underlying MathQuill library to add new features, remove the dependency on jQuery, and reduce bundle size.
+This is a fork of the `react-mathquill` project, which wraps MathQuill in React components.
+
+We've made some updates to the underlying MathQuill library to add new features, remove the dependency on jQuery, and reduce bundle size.
 
 ## Getting Started
 
@@ -13,6 +15,7 @@ This is a fork of the `react-mathquill` project, which wraps MathQuill in React 
 - You can run the examples with `npm run start:example` and navigate to `http://localhost:8080/`. Make sure that the editable math field works!
 - If you make a change to our fork of MathQuill, run the `./mathquill-build.sh` script to bring in those changes.
 - IMPORTANT! Make sure you delete the `font-face` imports in the CSS file `mathquill-basic.css`! This causes some weird runtime error to occur due to a missing Node.js builtin function. Eventually we'll remove that manual step.
+- Bump the version in `package.json` if you made changes
 - Deploy the package to npm with `npm publish`
 
 ## Examples
