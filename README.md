@@ -4,7 +4,9 @@
 
 ## Overview
 
-This is a fork of the `react-mathquill` project, which wraps MathQuill in React components. We've made some updates to the underlying MathQuill library to add new features, remove the dependency on jQuery, and reduce bundle size.
+This is a fork of the `react-mathquill` project, which wraps MathQuill in React components.
+
+We've made some updates to the underlying MathQuill library to add new features, remove the dependency on jQuery, and reduce bundle size.
 
 ## Getting Started
 

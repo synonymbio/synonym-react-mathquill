@@ -2351,6 +2351,52 @@ var __assign = (this && this.__assign) || function () {
                 var identifier = [];
                 var cursorState = 'none';
                 var bracketNodes = [];
+                var getNodeType = function (node) {
+                    if (node instanceof Letter) {
+                        return 'letter';
+                    }
+                    else if (node instanceof Digit) {
+                        return 'number';
+                    }
+                    else if (node instanceof DigitGroupingChar && node.textTemplate[0] === '.') {
+                        return 'period';
+                    }
+                    else if (node instanceof DigitGroupingChar && node.textTemplate[0] === '_') {
+                        return 'underscore';
+                    }
+                    else if (node instanceof VanillaSymbol && (node.textTemplate[0] === '_')) {
+                        return 'underscore';
+                    }
+                    else if (node instanceof VanillaSymbol && (node.textTemplate[0] === '"' || node.textTemplate[0] === "'")) {
+                        return 'quote';
+                    }
+                    else {
+                        return 'unknown';
+                    }
+                };
+                var getNodeText = function (node) {
+                    if (node instanceof Letter) {
+                        return node.letter;
+                    }
+                    else if (node instanceof Digit) {
+                        return node.textTemplate[0];
+                    }
+                    else if (node instanceof DigitGroupingChar && node.textTemplate[0] === '.') {
+                        return ".";
+                    }
+                    else if (node instanceof DigitGroupingChar && node.textTemplate[0] === '_') {
+                        return '_';
+                    }
+                    else if (node instanceof VanillaSymbol && (node.textTemplate[0] === '_')) {
+                        return '_';
+                    }
+                    else if (node instanceof VanillaSymbol && (node.textTemplate[0] === '"' || node.textTemplate[0] === "'")) {
+                        return node.textTemplate[0];
+                    }
+                    else {
+                        return 'unknown';
+                    }
+                };
                 // The postOrder follows a left, right, then parent order. This means that
                 // it will visit all of the letters in an identifier in sequence, allowing
                 // us to detect them.
@@ -2359,6 +2405,8 @@ var __assign = (this && this.__assign) || function () {
                 // f, h, e, l, l, o, (hello).
                 this.__controller.root.postOrder(function (node) {
                     // console.debug(node);
+                    // const nodeIsLetter = node instanceof Letter;
+                    // const nodeIsDigit = node instanceof Digit || node instanceof DigitGroupingChar;
                     var nodeIsQuote = (node instanceof VanillaSymbol) &&
                         (node.textTemplate[0] === '"' || node.textTemplate[0] === "'");
                     var nodeIsUnderscore = node instanceof VanillaSymbol && node.textTemplate[0] === '_';
@@ -2443,16 +2491,8 @@ var __assign = (this && this.__assign) || function () {
                                 element.classList.add('mq-literal');
                             }
                         }
-                        var text = node instanceof Letter ? node.letter :
-                            node instanceof Digit || node instanceof DigitGroupingChar ? node.textTemplate[0] :
-                                node instanceof VanillaSymbol && (node.textTemplate[0] === '"' || node.textTemplate[0] === "'") ? node.textTemplate[0] :
-                                    'unknown';
-                        var type = node instanceof Letter ? 'letter' :
-                            node instanceof Digit ? 'number' :
-                                node instanceof DigitGroupingChar && node.textTemplate[0] === '.' ? 'period' :
-                                    node instanceof DigitGroupingChar && node.textTemplate[0] === '_' ? 'underscore' :
-                                        node instanceof VanillaSymbol && (node.textTemplate[0] === '"' || node.textTemplate[0] === "'") ? 'quote' :
-                                            'unknown';
+                        var text = getNodeText(node);
+                        var type = getNodeType(node);
                         identifier.push({
                             id: node.id,
                             text: text,
@@ -2467,6 +2507,13 @@ var __assign = (this && this.__assign) || function () {
                         var isUnitBrace = node.textTemplate[0] === '{';
                         if (isUnitBrace) {
                             bracketNodes.push(node);
+                        }
+                    }
+                    // Label any comma nodes encountered.
+                    if (node instanceof VanillaSymbol && node.textTemplate[0] === ',') {
+                        var element = node.getDOM();
+                        if (element instanceof Element) {
+                            element.classList.add('mq-comma');
                         }
                     }
                 });
