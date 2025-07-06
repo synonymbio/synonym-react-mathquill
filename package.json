@@ -47,7 +47,7 @@
     "style-loader": "^3.3.1",
     "webpack": "^5.60.0",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.3.1"
+    "webpack-dev-server": "^5.2.1"
   },
   "bugs": {
     "url": "https://github.com/synonymbio/synonym-react-mathquill/issues"
