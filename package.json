@@ -35,6 +35,7 @@
     "eslint-plugin-react": "^7.26.1",
     "exports-loader": "^3.1.0",
     "file-loader": "^6.2.0",
+    "follow-redirects": "^1.15.9",
     "gh-pages": "^5.0.0",
     "html-webpack-plugin": "^5.5.0",
     "imports-loader": "^3.1.0",
@@ -47,7 +48,9 @@
     "style-loader": "^3.3.1",
     "webpack": "^5.60.0",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.3.1"
+    "webpack-dev-server": "^5.2.1",
+    "http-proxy-middleware": "^3.0.5",
+    "postcss": "^8.4.21"
   },
   "bugs": {
     "url": "https://github.com/synonymbio/synonym-react-mathquill/issues"
@@ -55,5 +58,7 @@
   "homepage": "https://github.com/synonymbio/synonym-react-mathquill#readme",
   "directories": {
     "example": "examples"
+  },
+  "dependencies": {
   }
 }
