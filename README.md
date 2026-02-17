@@ -1,4 +1,4 @@
-# Synonym's React [Mathquill](http://mathquill.com/)
+# Roebling's React [Mathquill](http://mathquill.com/)
 
 [![npm version](https://badge.fury.io/js/@synonym-bio%2Freact-mathquill.svg)](https://badge.fury.io/js/@synonym-bio%2Freact-mathquill)
 
@@ -17,6 +17,16 @@ We've made some updates to the underlying MathQuill library to add new features,
 - IMPORTANT! Make sure you delete the `font-face` imports in the CSS file `mathquill-basic.css`! This causes some weird runtime error to occur due to a missing Node.js builtin function. Eventually we'll remove that manual step.
 - Bump the version in `package.json` if you made changes
 - Deploy the package to npm with `npm publish`
+
+## Authenticating with `npm`
+
+You'll need to authenticate with `npm` to publish the package.
+- Run `npm login`
+- Enter your npm username and password
+- You can find your npm username and password in the 1Password vault under "NPM Credentials"
+- You might need to generate a new access token and enable the "bypass 2FA" option on it
+- Then copy the access token and paste it into: `npm config set //registry.npmjs.org/:_authToken=YOUR_TOKEN_HERE`
+- `npm publish`
 
 ## Examples
 
