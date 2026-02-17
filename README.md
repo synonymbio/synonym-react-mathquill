@@ -18,6 +18,16 @@ We've made some updates to the underlying MathQuill library to add new features,
 - Bump the version in `package.json` if you made changes
 - Deploy the package to npm with `npm publish`
 
+## Authenticating with `npm`
+
+You'll need to authenticate with `npm` to publish the package.
+- Run `npm login`
+- Enter your npm username and password
+- You can find your npm username and password in the 1Password vault under "NPM Credentials"
+- You might need to generate a new access token and enable the "bypass 2FA" option on it
+- Then copy the access token and paste it into: `npm config set //registry.npmjs.org/:_authToken=YOUR_TOKEN_HERE`
+- `npm publish`
+
 ## Examples
 
 - [Build of examples](https://viktorstrate.github.io/react-mathquill/) located at `src/examples/`
