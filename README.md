@@ -1,4 +1,4 @@
-# Synonym's React [Mathquill](http://mathquill.com/)
+# Roebling's React [Mathquill](http://mathquill.com/)
 
 [![npm version](https://badge.fury.io/js/@synonym-bio%2Freact-mathquill.svg)](https://badge.fury.io/js/@synonym-bio%2Freact-mathquill)
 
