@@ -1,6 +1,6 @@
 {
   "name": "@synonym-bio/react-mathquill",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "React component wrapper for Mathquill",
   "main": "index.js",
   "typings": "index.d.ts",
