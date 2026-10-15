@@ -8311,6 +8311,28 @@ var __assign = (this && this.__assign) || function () {
                 .removeClass('mq-ghost');
             this.replaceBracket(brackFrag, this.side);
         };
+        /**
+         * A typed close bracket at the very end of a fraction, exponent or root
+         * (like `(x/2|`) closes the open bracket around it, as if the user had
+         * pressed Right until the caret reached that bracket's end. Stops at any
+         * other bracket, so `[a|]` inside `(` does not jump out of the `]`.
+         */
+        Bracket.prototype.matchEnclosingBrack = function (opts, cursor) {
+            if (this.side !== R || cursor[R])
+                return undefined;
+            var block = cursor.parent;
+            var cmd = block.parent;
+            while (cmd instanceof MathCommand && !(cmd instanceof Bracket)) {
+                if (block !== cmd.getEnd(R) || cmd[R])
+                    return undefined;
+                block = cmd.parent;
+                cmd = block.parent;
+                var brack = this.matchBrack(opts, L, cmd);
+                if (brack)
+                    return brack;
+            }
+            return undefined;
+        };
         Bracket.prototype.createLeftOf = function (cursor) {
             var brack;
             if (!this.replacedFragment) {
@@ -8328,6 +8350,8 @@ var __assign = (this && this.__assign) || function () {
                     brack =
                         this.matchBrack(opts, -this.side, cursor[-this.side]) ||
                             this.matchBrack(opts, -this.side, cursor.parent.parent);
+                    if (!brack)
+                        brack = this.matchEnclosingBrack(opts, cursor);
                 }
             }
             if (brack) {
